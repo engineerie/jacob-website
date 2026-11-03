@@ -41,15 +41,24 @@ changes must be committed or unstaged before using the command.
 title: A walk through the forest
 date: "2026-11-03"
 description: Notes from a field visit.
-link: https://example.com/source
+links:
+  - "[Project documentation](https://example.com/project)"
+  - https://example.org/reference
 ---
 ```
 
 All properties above are optional. Title defaults to a leading `#` heading, then
 the filename. A matching leading title heading is removed from the export so the
 website displays it once. The first import supplies a publication date, which
-stays stable across later edits. An explicit date overrides it. `link`, when
-present, appears as a Source link under the post title.
+stays stable across later edits. An explicit date overrides it.
+
+Use `links` for related websites. A list item can be a plain http(s) URL or a
+quoted Markdown link such as `"[Publisher](https://example.com/book)"`. Named links
+display their label; plain URLs display their hostname without `www.`. The post
+shows a small Links section after its body, preserving your order and removing
+duplicate URLs. No section appears for an empty list. Labels render as plain text.
+The older single `link` property still works; an explicit `links` list takes
+precedence. Invalid links stop export before existing posts are changed.
 
 Filenames become lowercase URL slugs: `Test for publishing.md` becomes
 `/blog/test-for-publishing`. Use `slug: a-stable-name` to keep a URL when renaming
@@ -94,9 +103,12 @@ Commit new Vue components, chart data, and other website code separately before
 publishing a post that uses them. Static GitHub Pages can run browser-based charts;
 features requiring a server need a separate service.
 
-MDC syntax such as `::post-image` is not ordinary Markdown. This project disables
-Markdown format-on-save in VS Code to protect component blocks, and recommends the
-Nuxt MDC extension. Use an MDC-aware formatter for explicit document formatting.
+MDC syntax such as `::post-image` is supported natively by Nuxt Content, but needs
+an MDC-aware editor formatter. The recommended Nuxt MDC extension provides one.
+Project settings associate `content/**/*.md` with the MDC language, enable its
+formatter, and select `Nuxt.mdc` for format-on-save. Other Markdown files keep
+their usual editor behavior. If VS Code retains the previous formatter, run
+Developer: Reload Window and check that the content file's language mode is MDC.
 
 ## Images and links
 

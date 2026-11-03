@@ -1,5 +1,13 @@
 {
-  "[markdown]": {
-    "editor.formatOnSave": false
+  "files.associations": {
+    "**/content/**/*.md": "mdc"
+  },
+  "mdc.enableFormatting": true,
+  "[mdc]": {
+    "editor.defaultFormatter": "Nuxt.mdc",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false
   }
 }

@@ -256,3 +256,16 @@ test('a manually deleted website-managed post is not recreated from Obsidian', a
   assert.equal(last.posts.length, 0)
   await assert.rejects(readFile(output), { code: 'ENOENT' })
 })
+
+test('preserves multiple source links and rejects invalid ones before changing an export', async (t) => {
+  const f = await fixture(t)
+  await f.note('Note.md', '---\nlinks:\n  - https://research-architecture.org/Book-Series\n  - "[Spector Books](https://www.spectorbooks.com/book/common-sensing)"\n---\n\nArticle text.')
+  await f.sync()
+  const file = path.join(f.projectRoot, 'content/blog/note.md')
+  const before = await readFile(file, 'utf8')
+  assert.match(before, /links:/)
+  assert.match(before, /\[Spector Books\]\(https:\/\/www.spectorbooks.com\/book\/common-sensing\)/)
+  await f.note('Note.md', '---\nlinks:\n  - "[Bad](javascript:alert(1))"\n---\n\nChanged.')
+  await assert.rejects(f.sync(), /Note.md: Links must/)
+  assert.equal(await readFile(file, 'utf8'), before)
+})

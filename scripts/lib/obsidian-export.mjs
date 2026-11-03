@@ -4,6 +4,7 @@ import path from 'node:path'
 import sharp from 'sharp'
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { parse, stringify } from 'yaml'
+import { normalizePostLinks } from '../../shared/utils/post-links.mjs'
 
 export const MANIFEST = '.publishing/manifest.json'
 const IMAGE_DIR = 'public/images/obsidian/'
@@ -105,6 +106,7 @@ export async function exportPosts({
   for (const [source, post] of Object.entries(previous.posts)) {
     const content = await readOptional(path.join(projectRoot, post.file))
     const metadata = content ? frontmatter(content.toString(), post.file).metadata : {}
+    try { normalizePostLinks(metadata) } catch (error) { throw new Error(`${post.file}: ${error.message}`) }
     if (metadata.sync !== undefined && !['obsidian', 'website'].includes(metadata.sync)) throw new Error(`${post.file}: sync must be obsidian or website.`)
     if (post.managed !== false && metadata.sync !== 'website') continue
     const images = post.images || Object.keys(previous.images).filter(key => previous.images[key].variants.some(variant => content?.includes('/' + variant.file.replace(/^public\//, ''))))
@@ -137,7 +139,7 @@ export async function exportPosts({
     const mode = metadata.imageMode || imageMode
     if (!['dither', 'color'].includes(mode)) throw new Error(`${source}: imageMode must be dither or color.`)
     if (metadata.imageOverrides && (typeof metadata.imageOverrides !== 'object' || Array.isArray(metadata.imageOverrides))) throw new Error(`${source}: imageOverrides must be a filename-to-mode mapping.`)
-    if (metadata.link !== undefined && (typeof metadata.link !== 'string' || !/^https?:\/\//i.test(metadata.link))) throw new Error(`${source}: link must be an http or https URL.`)
+    try { normalizePostLinks(metadata) } catch (error) { throw new Error(`${source}: ${error.message}`) }
     notes.push({ file, source, metadata, body, tree, heading, title: title.trim(), slug, date, mode })
   }
 
