@@ -155,9 +155,12 @@ Obsidian embeds work directly:
 ```markdown
 ![[forest.jpg]]
 ![[forest.jpg|480]]
+![[forest.jpg|Fallen birch supporting young moss]]
 ```
 
-A descriptive nonnumeric embed alias is used as alt text by the exporter. Standard
+A descriptive nonnumeric embed alias becomes both a visible caption beneath the
+image and its alt text. Numeric aliases such as `|480` or `|480x320` remain size
+settings and do not create captions. Standard
 Markdown also works, including filenames with spaces encoded as `%20`:
 
 ```markdown
@@ -168,12 +171,21 @@ The optional image title becomes a visible caption, suitable for image credits.
 Filename-only embeds receive a fallback alt text and a reminder to improve it.
 Keep authorship/licensing information in captions or in the article.
 
-Images are resized without upscaling, converted to four-tone grayscale with
+Images are automatically oriented, centre-cropped to a 976:440 aspect ratio,
+resized without upscaling, and converted to four-tone grayscale with
 Floyd–Steinberg dithering, and saved as whichever is smaller: palette PNG or
-lossless WebP. The default variants are 480px and 960px wide. Originals stay in the
+lossless WebP. The default variants are 480px and 976px wide; the large image is
+976 × 440 when the source is large enough. Smaller sources retain the crop ratio
+to the nearest pixel without being enlarged. Originals stay in the
 vault; only the generated versions enter the repository. The first image is loaded
 eagerly, subsequent images lazily, with responsive sizes and explicit dimensions.
 Images use native browser rendering, without a zoom library or processing service.
+
+Change `imageCrop` in `.publishing.local.json` to adjust the crop ratio, or set it
+to `null` to keep original proportions. Cropping happens before resizing and
+dithering; the setting is included in the image cache key, so changing it
+automatically regenerates imported images on the next sync. Colour exceptions
+also use the standard crop.
 
 To preserve color, set `imageMode: color` for a whole post, or use an override:
 

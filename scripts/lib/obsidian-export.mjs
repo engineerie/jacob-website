@@ -78,11 +78,17 @@ function renderImage(properties) {
 }
 
 export async function exportPosts({
-  projectRoot, vaultPath, publishedPath = 'Website/Published', widths = [480, 960],
+  projectRoot, vaultPath, publishedPath = 'Website/Published', widths = [480, 976],
+  imageCrop = { width: 976, height: 440 },
   imageMode = 'dither', timeZone = 'Europe/London', dryRun = false, now = new Date(),
 }) {
   if (!vaultPath) throw new Error('Set vaultPath in .publishing.local.json, or pass --vault <path>.')
   if (!['dither', 'color'].includes(imageMode)) throw new Error('imageMode must be dither or color.')
+  if (imageCrop !== null && (!imageCrop || typeof imageCrop !== 'object'
+    || !Number.isSafeInteger(imageCrop.width) || imageCrop.width < 1
+    || !Number.isSafeInteger(imageCrop.height) || imageCrop.height < 1)) {
+    throw new Error('imageCrop must contain positive integer width and height values, or be null.')
+  }
   if (!Array.isArray(widths) || !widths.length || widths.some(width => !Number.isInteger(width) || width < 64 || width > 2400)) {
     throw new Error('Image widths must be integers between 64 and 2400.')
   }
@@ -189,7 +195,7 @@ export async function exportPosts({
     if (imageJobs.has(jobKey)) return imageJobs.get(jobKey)
     const promise = (async () => {
       const input = await readFile(file)
-      const key = hash(Buffer.concat([input, Buffer.from(JSON.stringify({ widths, mode, tones: 4, versions: sharp.versions }))]))
+      const key = hash(Buffer.concat([input, Buffer.from(JSON.stringify({ widths, imageCrop, mode, tones: 4, versions: sharp.versions }))]))
       const cached = previous.images[key]
       if (cached && (await Promise.all(cached.variants.map(async variant => {
         const data = await readOptional(path.join(projectRoot, variant.file))
@@ -204,10 +210,20 @@ export async function exportPosts({
       const metadata = await sharp(input, { limitInputPixels: 60_000_000 }).metadata()
       if ((metadata.pages || 1) > 1) throw new Error(`${note.source}: ${reference} is animated or multi-page. Export a still image first.`)
       const naturalWidth = (metadata.orientation || 1) >= 5 ? metadata.height : metadata.width
-      const targets = [...new Set(widths.map(width => Math.min(width, naturalWidth)))]
+      const naturalHeight = (metadata.orientation || 1) >= 5 ? metadata.width : metadata.height
+      const cropWidth = imageCrop ? Math.max(1, Math.min(naturalWidth, Math.floor(naturalHeight * imageCrop.width / imageCrop.height))) : naturalWidth
+      const cropHeight = imageCrop ? Math.max(1, Math.min(naturalHeight, Math.round(cropWidth * imageCrop.height / imageCrop.width))) : naturalHeight
+      const crop = imageCrop ? {
+        left: Math.floor((naturalWidth - cropWidth) / 2),
+        top: Math.floor((naturalHeight - cropHeight) / 2),
+        width: cropWidth, height: cropHeight,
+      } : null
+      const targets = [...new Set(widths.map(width => Math.min(width, cropWidth)))]
       const variants = []
       for (const width of targets) {
-        let pipeline = sharp(input, { limitInputPixels: 60_000_000 }).rotate().resize({ width, withoutEnlargement: true })
+        let pipeline = sharp(input, { limitInputPixels: 60_000_000 }).rotate()
+        if (crop) pipeline = pipeline.extract(crop)
+        pipeline = pipeline.resize({ width, withoutEnlargement: true })
         if (mode === 'dither') pipeline = pipeline.flatten({ background: '#ffffff' }).greyscale()
         const { data: png, info } = await pipeline.png(mode === 'dither'
           ? { palette: true, colours: 4, dither: 1, compressionLevel: 9, effort: 7 }
@@ -276,7 +292,7 @@ export async function exportPosts({
       const [reference, alias] = match[2].split('|')
       if (match[1]) {
         const size = alias && /^\d+(?:x\d+)?$/.test(alias) ? Number(alias.split('x')[0]) : undefined
-        images.push({ reference, alt: size ? undefined : alias, displayWidth: size, start: match.index, end: match.index + match[0].length })
+        images.push({ reference, alt: size ? undefined : alias, caption: size ? undefined : alias, displayWidth: size, start: match.index, end: match.index + match[0].length })
       } else {
         const target = noteLink(reference, note)
         edits.push({ start: match.index, end: match.index + match[0].length, text: `[${(alias || target.title).replace(/[\[\]\\]/g, '\\$&')}](${target.url})` })

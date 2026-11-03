@@ -4,6 +4,7 @@ import { mkdtemp, mkdir, writeFile, readFile, readdir, stat, unlink, symlink, rm
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import sharp from 'sharp'
+import { parse } from 'yaml'
 import { exportPosts, MANIFEST } from '../lib/obsidian-export.mjs'
 import { git, stagePublishedFiles } from '../lib/publishing-git.mjs'
 
@@ -71,6 +72,74 @@ test('exports Obsidian embeds, Markdown/reference images, titles and links; pres
   assert.deepEqual(second.changed, [])
   assert.equal(second.posts[0].date, '2026-11-03', 'first publication date remains stable')
   assert.equal((await stat(path.join(f.projectRoot, variant.file))).mtimeMs, before)
+})
+
+test('Obsidian image descriptions become captions and alt text while numeric aliases remain sizes', async (t) => {
+  const f = await fixture(t)
+  await image(path.join(f.vaultPath, 'mycelium.png'))
+  const caption = 'Close up photo of mycelium: strands & roots'
+  await f.note('Caption test.md', `![[mycelium.png|${caption}]]\n\n![[mycelium.png|60]]\n\n![[mycelium.png|80x40]]\n\n![[mycelium.png]]`)
+  await f.sync()
+  const output = await readFile(path.join(f.projectRoot, 'content/blog/caption-test.md'), 'utf8')
+  const embeds = [...output.matchAll(/::post-image\n---\n([\s\S]*?)---\n::/g)].map(match => parse(match[1]))
+  assert.equal(embeds.length, 4)
+  assert.equal(embeds[0].caption, caption)
+  assert.equal(embeds[0].alt, caption)
+  assert.equal(embeds[0].displayWidth, undefined)
+  assert.equal(embeds[1].displayWidth, 60)
+  assert.equal(embeds[2].displayWidth, 80)
+  for (const embed of embeds.slice(1)) {
+    assert.equal(embed.caption, undefined)
+    assert.equal(embed.alt, 'Mycelium')
+  }
+})
+
+test('centre-crops before dithering and invalidates cached images when the crop changes', async (t) => {
+  const f = await fixture(t)
+  const source = path.join(f.vaultPath, 'crop.png')
+  const middle = await sharp({ create: { width: 1600, height: 800, channels: 3, background: '#808080' } }).png().toBuffer()
+  await sharp({ create: { width: 1600, height: 1200, channels: 3, background: '#000000' } })
+    .composite([{ input: middle, left: 0, top: 200 }]).png().toFile(source)
+  await f.note('Crop.md', '![[crop.png|Centre crop]]')
+  const original = await readFile(source)
+  const cropped = await f.sync()
+  assert.deepEqual(cropped.images[0].variants.map(({ width, height }) => [width, height]), [[480, 216], [976, 440]])
+  for (const variant of cropped.images[0].variants) {
+    const output = await sharp(path.join(f.projectRoot, variant.file)).raw().toBuffer()
+    assert.ok(output.every(value => value >= 127 && value <= 129), 'the dark outer bands were cropped away')
+  }
+  assert.deepEqual(await readFile(source), original)
+  assert.equal((await f.sync()).images[0].cached, true)
+  const uncropped = await f.sync({ imageCrop: null })
+  assert.equal(uncropped.images[0].cached, false)
+  assert.notEqual(uncropped.images[0].key, cropped.images[0].key)
+  assert.deepEqual(uncropped.images[0].variants.map(({ width, height }) => [width, height]), [[480, 360], [976, 732]])
+})
+
+test('crop respects short panoramas, portraits and EXIF orientation without upscaling', async (t) => {
+  const f = await fixture(t)
+  const shapes = [
+    { name: 'Panorama', width: 2000, height: 200, expected: [443, 200] },
+    { name: 'Portrait', width: 120, height: 300, expected: [120, 54] },
+    { name: 'Rotated', width: 300, height: 600, orientation: 6, expected: [600, 270] },
+  ]
+  for (const shape of shapes) {
+    let pipeline = sharp({ create: { width: shape.width, height: shape.height, channels: 3, background: '#808080' } })
+    if (shape.orientation) pipeline = pipeline.withMetadata({ orientation: shape.orientation })
+    await pipeline.jpeg().toFile(path.join(f.vaultPath, `${shape.name}.jpg`))
+    await f.note(`${shape.name}.md`, `![[${shape.name}.jpg|A photo]]`)
+  }
+  const result = await f.sync()
+  for (const shape of shapes) {
+    const variant = result.images.find(item => item.name === `${shape.name}.jpg`).variants.at(-1)
+    assert.deepEqual([variant.width, variant.height], shape.expected, shape.name)
+    const metadata = await sharp(path.join(f.projectRoot, variant.file)).metadata()
+    assert.equal(metadata.width, variant.width)
+    assert.equal(metadata.height, variant.height)
+  }
+  for (const imageCrop of [{ width: 0, height: 440 }, { width: 976, height: -1 }, '976x440']) {
+    await assert.rejects(f.sync({ imageCrop }), /imageCrop must/)
+  }
 })
 
 test('missing or ambiguous images fail without partially updating an existing export', async (t) => {

@@ -10,7 +10,13 @@ useSeoMeta({ title: () => `${post.value?.title} — Jacob Bertilsson`, descripti
 const formattedDate = computed(() => post.value?.date
   ? new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(post.value.date)) : null)
 const relatedLinks = computed(() => normalizePostLinks({ links: post.value?.links, link: post.value?.link }))
-const isProject = computed(() => getPostType(post.value?.Type) === 'Project')
+const postType = computed(() => getPostType(post.value?.Type))
+const postTypeIcon = computed(() => ({
+  'Blog post': 'i-lucide-file-text',
+  'Published article': 'i-lucide-book',
+  Project: 'i-lucide-folder',
+})[postType.value])
+const isProject = computed(() => postType.value === 'Project')
 const { data: posts } = await useWritingPosts()
 const surround = computed(() => {
   const items = (posts.value || []).filter(item => getPostType(item.Type) === getPostType(post.value?.Type))
@@ -27,9 +33,13 @@ const surround = computed(() => {
   <UPage v-if="post" as="article">
     <header class="mb-7">
       <ProseH1>{{ post.title }}</ProseH1>
-      <div v-if="(isProject ? post.start : post.date) || relatedLinks.length" class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
         <ProjectPeriod v-if="isProject" :start="post.start" :end="post.end" class="shrink-0" />
         <time v-else-if="post.date" :datetime="post.date" class="shrink-0">{{ formattedDate }}</time>
+        <span class="inline-flex shrink-0 items-center gap-1.5">
+          <UIcon :name="postTypeIcon" class="size-3.5 shrink-0" aria-hidden="true" />
+          {{ postType }}
+        </span>
         <nav v-if="relatedLinks.length" aria-label="Related links" class="flex min-w-0 max-w-full flex-wrap gap-1">
           <UButton
             v-for="link in relatedLinks"

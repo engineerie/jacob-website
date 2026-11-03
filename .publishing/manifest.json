@@ -1,73 +1,89 @@
 {
   "version": 1,
   "posts": {
-    "Blog from Obsidian.md": {
-      "file": "content/blog/blog-from-obsidian.md",
-      "date": "2026-11-03",
-      "sha256": "fb4bca66b401758358380010b1a164b33fa4eb0cc4d420a40de8c3e970bd6d15",
-      "images": []
+    "Insensible relations at the margins of ecosystem care.md": {
+      "file": "content/blog/insensible-relations-at-the-margins-of-ecosystem-care.md",
+      "date": "2024-09-01",
+      "sha256": "b8459046206530e777fb9d494d539970dc988c172f1eff11f031db72f3fad9e0",
+      "images": [
+        "31416bf0da06c77866f79b3d89fa58fc22634b707673bdc382153e3e8eac5975"
+      ]
     },
     "Svampskog.se.md": {
       "file": "content/blog/svampskog-se.md",
       "date": "2026-11-03",
-      "sha256": "1b8403ca9226d69324895545098b427d3c9e0c7e004e8de4c6ae701d2cebf564",
-      "images": []
-    },
-    "Test for publishing 2.md": {
-      "file": "content/blog/test-for-publishing-2.md",
-      "date": "2026-11-03",
-      "sha256": "55d26b0bc841d49088ee2f284d6ab439905c3bba9491a787ca2ef71fa2041f9d",
+      "sha256": "26d1c40bbc4259b5023bb8da3900ac4f9f26bc1404cc20f172ade86a157db6f8",
       "images": [
-        "87565d65e208f8173827553f289dca6566e09aaef74e8d1300d59d76383a18fe"
+        "40c25b308774305a401b7ea1efd300cff1adcc5fc0da147911e9fda44269232c"
       ]
     },
     "You Won't See it Above Ground.md": {
       "file": "content/blog/you-won-t-see-it-above-ground.md",
-      "date": "2026-11-03",
-      "sha256": "11264f5c6bda6bd2ff9e07b47be2a02ec2210699d513e3bb41f50b5d62b30d9f",
+      "date": "2025-05-01",
+      "sha256": "f7dcd068cce409961bf9b91a5abc4a7a0935bae4e306bee67cfb65176f50a167",
       "images": [
-        "ee4fe0e40fb1189164fbfc89a9aef628ab44e46e0a35c58bccfa7bf2759726ea"
+        "b27e4e9daef2d64892c3f1d3e2eca63c72d81521c3a24ebab6793ce3a50aaa80"
       ]
     }
   },
   "images": {
-    "87565d65e208f8173827553f289dca6566e09aaef74e8d1300d59d76383a18fe": {
+    "31416bf0da06c77866f79b3d89fa58fc22634b707673bdc382153e3e8eac5975": {
       "mode": "dither",
-      "sourceBytes": 67754,
+      "sourceBytes": 657610,
       "variants": [
         {
-          "file": "public/images/obsidian/87565d65e208f8173827553f-480.webp",
+          "file": "public/images/obsidian/31416bf0da06c77866f79b3d-480.webp",
           "width": 480,
-          "height": 270,
-          "bytes": 15300,
-          "sha256": "e251d4727dfbd196f7a1b0a8e73c698fd584d26cc89f505b61a85be8f6fb2879"
+          "height": 216,
+          "bytes": 11756,
+          "sha256": "c323d0a38abca9e7240012f398404bf5734f1b8bd22be8dcde056347e98cc6a1"
         },
         {
-          "file": "public/images/obsidian/87565d65e208f8173827553f-960.webp",
-          "width": 960,
-          "height": 540,
-          "bytes": 52900,
-          "sha256": "c51037f4ff5976e1803d81604fd4641606c7095cbe2695658b218c01f8c779e2"
+          "file": "public/images/obsidian/31416bf0da06c77866f79b3d-976.webp",
+          "width": 976,
+          "height": 440,
+          "bytes": 50516,
+          "sha256": "1ad16aaaa7206c7c05579dd601f7293ed82aacdcac0614b593a9dd52b52d76c5"
         }
       ]
     },
-    "ee4fe0e40fb1189164fbfc89a9aef628ab44e46e0a35c58bccfa7bf2759726ea": {
+    "40c25b308774305a401b7ea1efd300cff1adcc5fc0da147911e9fda44269232c": {
+      "mode": "dither",
+      "sourceBytes": 421913,
+      "variants": [
+        {
+          "file": "public/images/obsidian/40c25b308774305a401b7ea1-480.webp",
+          "width": 480,
+          "height": 216,
+          "bytes": 5042,
+          "sha256": "efe09d4d97e30aaca61f8edd6fd9740841b80520e986dd4c71c1720a17c2537c"
+        },
+        {
+          "file": "public/images/obsidian/40c25b308774305a401b7ea1-976.webp",
+          "width": 976,
+          "height": 440,
+          "bytes": 16278,
+          "sha256": "d2d84afaac58d3e4df273a97a9a188e8073b02640d96016b069df2cf585f66da"
+        }
+      ]
+    },
+    "b27e4e9daef2d64892c3f1d3e2eca63c72d81521c3a24ebab6793ce3a50aaa80": {
       "mode": "dither",
       "sourceBytes": 114208,
       "variants": [
         {
-          "file": "public/images/obsidian/ee4fe0e40fb1189164fbfc89-480.webp",
+          "file": "public/images/obsidian/b27e4e9daef2d64892c3f1d3-480.webp",
           "width": 480,
-          "height": 270,
-          "bytes": 17454,
-          "sha256": "9b545e211714c47878025a5517a1ec9f7f406e7125f7670ea3528ab29de2d1c5"
+          "height": 216,
+          "bytes": 14400,
+          "sha256": "d9df14190f4cad3dfcf67f49dda9123eb64e2413cfb57be21df7edb8048c4e70"
         },
         {
-          "file": "public/images/obsidian/ee4fe0e40fb1189164fbfc89-960.webp",
-          "width": 960,
-          "height": 540,
-          "bytes": 64178,
-          "sha256": "eff36001f402eab5d89734f1a0bba0e3dadc98e08aba31c0dd01f41a3bc650a5"
+          "file": "public/images/obsidian/b27e4e9daef2d64892c3f1d3-976.webp",
+          "width": 976,
+          "height": 440,
+          "bytes": 45308,
+          "sha256": "66ff3cfcc082647ea9067570549e69b88001322c2644f8f3887de05a9253dd06"
         }
       ]
     }

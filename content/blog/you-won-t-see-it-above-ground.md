@@ -2,18 +2,20 @@
 links:
   - https://research-architecture.org/Book-Series
   - "[Spector Books](https://www.spectorbooks.com/book/common-sensing)"
+Type:
+  - Published article
+date: 2025-05-01
 title: You Won't See it Above Ground
-date: 2026-11-03
 draft: false
 ---
 
 ::post-image
 ---
-src: /images/obsidian/ee4fe0e40fb1189164fbfc89-960.webp
+src: /images/obsidian/b27e4e9daef2d64892c3f1d3-976.webp
 alt: CS
-width: 960
-height: 540
-srcset: /images/obsidian/ee4fe0e40fb1189164fbfc89-480.webp 480w, /images/obsidian/ee4fe0e40fb1189164fbfc89-960.webp 960w
+width: 976
+height: 440
+srcset: /images/obsidian/b27e4e9daef2d64892c3f1d3-480.webp 480w, /images/obsidian/b27e4e9daef2d64892c3f1d3-976.webp 976w
 loading: eager
 ---
 ::
