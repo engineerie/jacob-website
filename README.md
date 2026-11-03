@@ -19,7 +19,11 @@ Edit `content/index.md` to change your name, introduction, and links. Edit
 `content/about.md` for the about page. The current copy is a starting placeholder.
 The Nuxt UI header and shared layout in `app/app.vue` use a centered, 48rem reading column
 (`max-w-3xl`) with responsive side padding. Pages use a compact document layout,
-and writing appears as a list of titles and dates. The header name links home.
+and entries appear in Blog, Publications, and Projects tabs according to their
+Obsidian `Type` property. All three use simple lists of titles and dates. On desktop, the header shows
+`Jacob Bertilsson › Post title`, using Nuxt UI's default breadcrumb separator and
+omitting the internal `/blog/` directory. The current page has no link or hover
+effect. The name links home from other pages; mobile shows the name alone.
 Nuxt UI prose typography is configured in `app/app.config.ts`. The neutral light
 and dark palettes and document text size live in `app/assets/css/main.css`.
 The header name and social profile URLs live in `app/app.config.ts`.

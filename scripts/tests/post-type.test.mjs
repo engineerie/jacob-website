@@ -7,6 +7,8 @@ test('supports Obsidian list properties and plain text properties', () => {
   assert.equal(getPostType(['Blog post']), 'Blog post')
   assert.equal(getPostType('Published article'), 'Published article')
   assert.equal(getPostType(' published ARTICLE '), 'Published article')
+  assert.equal(getPostType(['Project']), 'Project')
+  assert.equal(getPostType('projects'), 'Project')
 })
 
 test('older posts without a Type keep the blog icon', () => {

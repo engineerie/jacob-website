@@ -52,16 +52,23 @@ the filename. A matching leading title heading is removed from the export so the
 website displays it once. The first import supplies a publication date, which
 stays stable across later edits. An explicit date overrides it.
 
-The optional `Type` property controls the writing-list icon: `Blog post` uses a
-document, and `Published article` uses an open book. Obsidian's single-item list
-format is supported, as is a plain text property:
+The optional `Type` property places each entry in one of the homepage tabs:
+
+- `Blog post` → Blog, with a document icon.
+- `Published article` → Publications, with an open-book icon.
+- `Project` → Projects, with a folder icon (`Projects` is also accepted).
+
+All notes stay in the same `Website/Published` folder. Each tab lists its entries
+newest first. Obsidian's single-item list format is supported, as is plain text:
 
 ```yaml
 Type:
   - Published article
 ```
 
-Choose one type per post. Posts without the property retain the document icon.
+Choose one type per entry. Notes without the property appear in Blog. Tab panels
+remain in generated HTML so publication and project pages are included in static
+deployment, even though only the selected panel is visible.
 
 Use `links` for related websites. A list item can be a plain http(s) URL or a
 quoted Markdown link such as `"[Publisher](https://example.com/book)"`. Named links

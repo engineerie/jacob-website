@@ -1,6 +1,9 @@
 ---
-link: https://mustarinda.fi/en/magazine/kirjeenvaihto-corresponding/aistimattomat-suhteet-ekosysteemihoivan-marginaaleissa
-title: Test for publishing
+links:
+  - "[Read the article here](https://mustarinda.fi/en/magazine/kirjeenvaihto-corresponding/aistimattomat-suhteet-ekosysteemihoivan-marginaaleissa)"
+Type:
+  - Published article
+title: Test for publishing 2
 date: 2026-11-03
 draft: false
 ---
@@ -18,4 +21,6 @@ loading: eager
 
 
 
-This is my first test for publishing from Obsidian
+This is my first test for publishing from Obsidian 
+
+This is an added line

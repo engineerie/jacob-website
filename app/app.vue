@@ -12,6 +12,9 @@ const { site } = useAppConfig()
       class="mx-auto w-full max-w-3xl border-b-0"
       :ui="{ left: 'min-w-0', title: 'text-xs font-medium', right: 'shrink-0 lg:flex-none' }"
     >
+      <template #left>
+        <HeaderBreadcrumb />
+      </template>
       <template #right>
         <UButton
           :to="site.social.linkedin"

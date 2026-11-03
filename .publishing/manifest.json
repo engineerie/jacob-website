@@ -1,10 +1,27 @@
 {
   "version": 1,
   "posts": {
-    "Test for publishing.md": {
-      "file": "content/blog/test-for-publishing.md",
+    "Blog from Obsidian.md": {
+      "file": "content/blog/blog-from-obsidian.md",
       "date": "2026-11-03",
-      "sha256": "682cac7279aa1c49080061da685824eef6cbe89fa6a9cc5a80f8c1a9c103dda6"
+      "sha256": "fb4bca66b401758358380010b1a164b33fa4eb0cc4d420a40de8c3e970bd6d15",
+      "images": []
+    },
+    "Test for publishing 2.md": {
+      "file": "content/blog/test-for-publishing-2.md",
+      "date": "2026-11-03",
+      "sha256": "55d26b0bc841d49088ee2f284d6ab439905c3bba9491a787ca2ef71fa2041f9d",
+      "images": [
+        "87565d65e208f8173827553f289dca6566e09aaef74e8d1300d59d76383a18fe"
+      ]
+    },
+    "You Won't See it Above Ground.md": {
+      "file": "content/blog/you-won-t-see-it-above-ground.md",
+      "date": "2026-11-03",
+      "sha256": "11264f5c6bda6bd2ff9e07b47be2a02ec2210699d513e3bb41f50b5d62b30d9f",
+      "images": [
+        "ee4fe0e40fb1189164fbfc89a9aef628ab44e46e0a35c58bccfa7bf2759726ea"
+      ]
     }
   },
   "images": {
@@ -25,6 +42,26 @@
           "height": 540,
           "bytes": 52900,
           "sha256": "c51037f4ff5976e1803d81604fd4641606c7095cbe2695658b218c01f8c779e2"
+        }
+      ]
+    },
+    "ee4fe0e40fb1189164fbfc89a9aef628ab44e46e0a35c58bccfa7bf2759726ea": {
+      "mode": "dither",
+      "sourceBytes": 114208,
+      "variants": [
+        {
+          "file": "public/images/obsidian/ee4fe0e40fb1189164fbfc89-480.webp",
+          "width": 480,
+          "height": 270,
+          "bytes": 17454,
+          "sha256": "9b545e211714c47878025a5517a1ec9f7f406e7125f7670ea3528ab29de2d1c5"
+        },
+        {
+          "file": "public/images/obsidian/ee4fe0e40fb1189164fbfc89-960.webp",
+          "width": 960,
+          "height": 540,
+          "bytes": 64178,
+          "sha256": "eff36001f402eab5d89734f1a0bba0e3dadc98e08aba31c0dd01f41a3bc650a5"
         }
       ]
     }

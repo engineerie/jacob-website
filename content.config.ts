@@ -13,7 +13,7 @@ export default defineContentConfig({
       schema: z.object({
         date: z.string().optional(),
         draft: z.boolean().default(false),
-        Type: z.union([z.string(), z.array(z.string())]).nullish().refine(isPostType, 'Choose one Type: Blog post or Published article.'),
+        Type: z.union([z.string(), z.array(z.string())]).nullish().refine(isPostType, 'Choose one Type: Blog post, Published article, or Project.'),
         links: z.array(postLink).nullish(),
         link: postLink.nullish(),
       }),

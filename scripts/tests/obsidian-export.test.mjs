@@ -281,3 +281,12 @@ test('preserves the Obsidian Type list and rejects ambiguous types before changi
   await assert.rejects(f.sync(), /Note.md: Type must contain only one/)
   assert.equal(await readFile(file, 'utf8'), before)
 })
+
+test('imports projects from the same Published folder as other writing', async (t) => {
+  const f = await fixture(t)
+  await f.note('Research project.md', '---\nType:\n  - Project\n---\n\nA project description.')
+  const result = await f.sync()
+  assert.equal(result.posts[0].url, '/blog/research-project')
+  const output = await readFile(path.join(f.projectRoot, 'content/blog/research-project.md'), 'utf8')
+  assert.match(output, /Type:\n  - Project/)
+})
