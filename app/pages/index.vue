@@ -58,7 +58,7 @@ function formatDate(date: string) {
                   :aria-label="getPostType(post.Type)">
                   <title>{{ getPostType(post.Type) }}</title>
                   <path v-if="item.value === 'publications'"
-                    d="M12 7v14M3 3h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5v16h-5a4 4 0 0 0-4 2 4 4 0 0 0-4-2H3V3Z" />
+                    d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
                   <path v-else-if="item.value === 'projects'"
                     d="M20 20H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z" />
                   <template v-else>
