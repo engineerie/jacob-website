@@ -101,10 +101,27 @@ export async function exportPosts({
   const notes = []
   const slugs = new Map()
   const warnings = []
+  const websitePosts = new Map()
+  for (const [source, post] of Object.entries(previous.posts)) {
+    const content = await readOptional(path.join(projectRoot, post.file))
+    const metadata = content ? frontmatter(content.toString(), post.file).metadata : {}
+    if (metadata.sync !== undefined && !['obsidian', 'website'].includes(metadata.sync)) throw new Error(`${post.file}: sync must be obsidian or website.`)
+    if (post.managed !== false && metadata.sync !== 'website') continue
+    const images = post.images || Object.keys(previous.images).filter(key => previous.images[key].variants.some(variant => content?.includes('/' + variant.file.replace(/^public\//, ''))))
+    websitePosts.set(source, { ...post, managed: false, images: content ? images : [], content })
+    const slug = path.basename(post.file, '.md')
+    slugs.set(slug, source)
+    if (content) notes.push({
+      source, file: path.join(published, source), slug, website: true,
+      title: metadata.title || pretty(slug), date: metadata.date || post.date,
+    })
+  }
   const publicationDate = today(timeZone, now)
   for (const file of (await listFiles(published)).filter(file => /\.md$/i.test(file))) {
     const source = portable(path.relative(published, file))
+    if (websitePosts.has(source)) continue
     const { metadata, body } = frontmatter(await readFile(file, 'utf8'), source)
+    if (metadata.sync !== undefined && !['obsidian', 'website'].includes(metadata.sync)) throw new Error(`${source}: sync must be obsidian or website.`)
     if (metadata.draft !== undefined && typeof metadata.draft !== 'boolean') throw new Error(`${source}: draft must be true or false.`)
     if (metadata.draft === true) continue
     const tree = fromMarkdown(body)
@@ -128,6 +145,21 @@ export async function exportPosts({
   const manifest = { version: 1, posts: {}, images: {} }
   const imageResults = new Map()
   const imageJobs = new Map()
+  for (const [source, post] of websitePosts) {
+    const { content, ...record } = post
+    manifest.posts[source] = { ...record, ...(content ? { sha256: hash(content) } : {}) }
+    if (content) outputs.set(post.file, content)
+    for (const key of post.images) {
+      const image = previous.images[key]
+      if (!image) throw new Error(`${post.file}: generated image record is missing.`)
+      manifest.images[key] = image
+      for (const variant of image.variants) {
+        const data = await readOptional(path.join(projectRoot, variant.file))
+        if (!data) throw new Error(`${post.file}: image ${variant.file} is missing.`)
+        outputs.set(variant.file, data)
+      }
+    }
+  }
   let imageIndex
   async function resolveImage(reference, note) {
     let target
@@ -161,7 +193,7 @@ export async function exportPosts({
       }))).every(Boolean)) {
         for (const variant of cached.variants) outputs.set(variant.file, await readFile(path.join(projectRoot, variant.file)))
         manifest.images[key] = cached
-        const result = { ...cached, cached: true, name: path.basename(file) }
+        const result = { ...cached, key, cached: true, name: path.basename(file) }
         imageResults.set(key, result)
         return result
       }
@@ -184,7 +216,7 @@ export async function exportPosts({
       }
       const record = { mode, sourceBytes: input.length, variants }
       manifest.images[key] = record
-      const result = { ...record, cached: false, name: path.basename(file) }
+      const result = { ...record, key, cached: false, name: path.basename(file) }
       imageResults.set(key, result)
       return result
     })()
@@ -206,6 +238,8 @@ export async function exportPosts({
   }
 
   for (const note of notes) {
+    if (note.website) continue
+    const usedImages = new Set()
     const edits = []
     const protectedRanges = []
     const images = []
@@ -254,6 +288,7 @@ export async function exportPosts({
       const mode = note.metadata.imageOverrides?.[image.reference] || note.metadata.imageOverrides?.[path.basename(image.reference)] || note.mode
       if (!['dither', 'color'].includes(mode)) throw new Error(`${note.source}: image override must be dither or color.`)
       const result = await processImage(image.reference, mode, note)
+      usedImages.add(result.key)
       const largest = result.variants.at(-1)
       const url = file => '/' + file.replace(/^public\//, '')
       const alt = image.alt ?? pretty(path.basename(image.reference, path.extname(image.reference)))
@@ -287,13 +322,14 @@ export async function exportPosts({
     const content = `---\n${stringify(metadata, { lineWidth: 0 })}---\n\n${body.trim()}\n`
     const file = `${POST_DIR}${note.slug}.md`
     outputs.set(file, Buffer.from(content))
-    manifest.posts[note.source] = { file, date: note.date, sha256: hash(content) }
+    manifest.posts[note.source] = { file, date: note.date, sha256: hash(content), images: [...usedImages] }
   }
 
   const previousPosts = new Map(Object.values(previous.posts).map(post => [post.file, post]))
   for (const [file, post] of previousPosts) {
+    if ([...websitePosts.values()].some(websitePost => websitePost.file === file)) continue
     const existing = await readOptional(path.join(projectRoot, file))
-    if (existing && hash(existing) !== post.sha256) throw new Error(`${file} was edited outside Obsidian. Move those changes back to the source note before syncing.`)
+    if (existing && hash(existing) !== post.sha256) throw new Error(`${file} was edited outside Obsidian. Move those changes back to the source note, or add sync: website to its frontmatter to manage this post in the website project.`)
   }
   for (const post of Object.values(manifest.posts)) {
     if (!previousPosts.has(post.file) && await readOptional(path.join(projectRoot, post.file))) throw new Error(`${post.file} already exists and is not owned by the exporter. Choose another slug.`)
@@ -320,7 +356,7 @@ export async function exportPosts({
     if (!dryRun) await unlink(path.join(projectRoot, file)).catch(error => { if (error.code !== 'ENOENT') throw error })
   }
   return {
-    posts: notes.map(note => ({ source: note.source, url: `/blog/${note.slug}`, date: note.date })),
+    posts: notes.map(note => ({ source: note.source, url: `/blog/${note.slug}`, date: note.date, sync: note.website ? 'website' : 'obsidian' })),
     images: [...imageResults.values()], warnings, changed, removed, dryRun,
   }
 }

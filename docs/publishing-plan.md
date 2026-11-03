@@ -14,6 +14,8 @@ and deploys the exported files without access to the vault.
 - Preview and validate the exported site, then commit and push to GitHub.
 - Connect hosting so a push can rebuild and deploy the site.
 - Keep the vault as the source for future edits; leave original images unchanged.
+- For custom website features, a post can opt into website management with
+  `sync: website` in the exported file. Future imports preserve it and its images.
 
 ## Low-resource direction
 

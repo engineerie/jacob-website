@@ -24,7 +24,7 @@ export async function syncPosts(args = process.argv.slice(2)) {
   if (config.vaultPath?.startsWith('~/')) config.vaultPath = path.join(os.homedir(), config.vaultPath.slice(2))
   const result = await exportPosts({ ...config, projectRoot, dryRun })
   console.log(`${dryRun ? 'Dry run: ' : ''}${result.posts.length} post(s), ${result.images.length} image(s); ${result.changed.length} file(s) ${dryRun ? 'would change' : 'updated'}, ${result.removed.length} retired.`)
-  for (const post of result.posts) console.log(`  ${post.source} → ${post.url}`)
+  for (const post of result.posts) console.log(`  ${post.source} → ${post.url}${post.sync === 'website' ? ' (website-managed)' : ''}`)
   for (const image of result.images) {
     const variants = image.variants.map(variant => `${variant.width}px: ${(variant.bytes / 1024).toFixed(1)} KB`).join(', ')
     console.log(`  ${image.name}: ${(image.sourceBytes / 1024).toFixed(1)} KB original → ${variants} (${image.mode}${image.cached ? ', cached' : ''})`)

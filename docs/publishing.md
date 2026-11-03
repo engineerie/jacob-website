@@ -1,7 +1,8 @@
 # Publish from Obsidian
 
-The Obsidian vault is the source of truth. The website receives exported Markdown
-and optimized images. Original notes and images are never modified by these tools.
+Posts start with Obsidian as the source of truth. Individual posts can later be
+managed in the website project for interactive charts and other custom components.
+Original vault notes and images are never modified by these tools.
 
 ## Local setup
 
@@ -59,7 +60,43 @@ export rather than overwrite a post.
 marking it as a draft removes its previously generated files on the next sync.
 Hand-authored posts and unrelated images are preserved. Avoid editing generated
 Markdown directly: the exporter detects those edits and asks you to transfer
-them back to the source note before it overwrites anything.
+them back to the source note or explicitly switch that post to website management.
+
+## Enhance a post in VS Code
+
+To take over an imported post, add this property to the frontmatter of its file
+in `content/blog/`:
+
+```yaml
+sync: website
+```
+
+You can then edit its text or add Nuxt Content components, such as an interactive
+chart. Sync and publish preserve the entire website-managed file and its imported
+images. Changes to the original Obsidian note no longer replace it; moving the
+original out of Published or marking it as a draft no longer removes the website
+version. The handover is recorded in the publishing manifest on the next sync.
+Once recorded, removing the property does not automatically re-enable overwriting.
+
+Create custom components in `app/components/content/`, for example
+`ResearchChart.vue`, and embed them in the post using MDC:
+
+```markdown
+::research-chart
+::
+```
+
+The component supplies the chart's data and behavior; importing a note alone does
+not create a chart. Keep interactive code specific to the pages that need it.
+
+`pnpm posts:publish` also commits edits to these existing website-managed posts.
+Commit new Vue components, chart data, and other website code separately before
+publishing a post that uses them. Static GitHub Pages can run browser-based charts;
+features requiring a server need a separate service.
+
+MDC syntax such as `::post-image` is not ordinary Markdown. This project disables
+Markdown format-on-save in VS Code to protect component blocks, and recommends the
+Nuxt MDC extension. Use an MDC-aware formatter for explicit document formatting.
 
 ## Images and links
 
