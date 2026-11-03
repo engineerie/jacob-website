@@ -70,11 +70,31 @@ Choose one type per entry. Notes without the property appear in Blog. Tab panels
 remain in generated HTML so publication and project pages are included in static
 deployment, even though only the selected panel is visible.
 
+### Project time spans
+
+Projects can have `start` and `end` date properties in Obsidian:
+
+```yaml
+Type:
+  - Project
+start: 2024-01-01
+end: 2026-10-31
+```
+
+The Projects tab and project page show `Jan 2024 – Oct 2026` instead of the
+publication date. Leave `end` empty or omit it for `Jan 2024 – Present`. Both
+properties use Obsidian's YYYY-MM-DD date format. Without `start`, no duration is
+displayed. An end date requires a start date and cannot precede it. The existing
+`date` property remains the publication date for blog posts and publications.
+
+### Related links
+
 Use `links` for related websites. A list item can be a plain http(s) URL or a
 quoted Markdown link such as `"[Publisher](https://example.com/book)"`. Named links
 display their label; plain URLs display their hostname without `www.`. The post
-shows a small Links section after its body, preserving your order and removing
-duplicate URLs. No section appears for an empty list. Labels render as plain text.
+shows compact ghost buttons beside the date, each with a leading link icon. They
+wrap below the date on narrow screens. Your order is preserved and duplicate URLs
+are removed. No buttons appear for an empty list. Labels render as plain text.
 The older single `link` property still works; an explicit `links` list takes
 precedence. Invalid links stop export before existing posts are changed.
 

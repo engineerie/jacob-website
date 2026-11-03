@@ -7,6 +7,12 @@
       "sha256": "fb4bca66b401758358380010b1a164b33fa4eb0cc4d420a40de8c3e970bd6d15",
       "images": []
     },
+    "Svampskog.se.md": {
+      "file": "content/blog/svampskog-se.md",
+      "date": "2026-11-03",
+      "sha256": "1b8403ca9226d69324895545098b427d3c9e0c7e004e8de4c6ae701d2cebf564",
+      "images": []
+    },
     "Test for publishing 2.md": {
       "file": "content/blog/test-for-publishing-2.md",
       "date": "2026-11-03",

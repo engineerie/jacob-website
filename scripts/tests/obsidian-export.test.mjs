@@ -290,3 +290,16 @@ test('imports projects from the same Published folder as other writing', async (
   const output = await readFile(path.join(f.projectRoot, 'content/blog/research-project.md'), 'utf8')
   assert.match(output, /Type:\n  - Project/)
 })
+
+test('exports project dates and rejects reversed spans before overwriting a post', async (t) => {
+  const f = await fixture(t)
+  await f.note('Project.md', '---\nType: Project\nstart: 2024-01-01\nend: 2026-10-31\n---\n\nA project.')
+  await f.sync()
+  const file = path.join(f.projectRoot, 'content/blog/project.md')
+  const before = await readFile(file, 'utf8')
+  assert.match(before, /start: 2024-01-01/)
+  assert.match(before, /end: 2026-10-31/)
+  await f.note('Project.md', '---\nType: Project\nstart: 2026-01-01\nend: 2025-01-01\n---\n\nChanged.')
+  await assert.rejects(f.sync(), /end date cannot be before/)
+  assert.equal(await readFile(file, 'utf8'), before)
+})
