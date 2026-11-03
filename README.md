@@ -17,8 +17,13 @@ pnpm dev
 
 Edit `content/index.md` to change your name, introduction, and links. Edit
 `content/about.md` for the about page. The current copy is a starting placeholder.
-The Nuxt UI header and shared layout in `app/app.vue` use a centered, 48rem reading column
-(`max-w-3xl`) with responsive side padding. Pages use a compact document layout,
+The Nuxt UI header uses a centered 48rem container with responsive side padding.
+`UMain` and a wider `UContainer` frame each page's `UPage` and `UPageBody`.
+The center column is capped at 44rem (704px), matching the header's inner width.
+Future sidebars can use `UPage`'s `#left` and `#right` slots without changing the
+article markup. These slots stay absent until needed, so they reserve no space.
+The column limit and body spacing are configured in `app/app.config.ts`.
+Pages use a compact document layout,
 and entries appear in Blog, Publications, and Projects tabs according to their
 Obsidian `Type` property. All three use simple lists of titles and dates. On desktop, the header shows
 `Jacob Bertilsson › Post title`, using Nuxt UI's default breadcrumb separator and

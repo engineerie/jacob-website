@@ -20,10 +20,10 @@ const { site } = useAppConfig()
       </template>
     </UHeader>
 
-    <UContainer class="max-w-3xl py-10 sm:py-14">
-      <main>
+    <UMain>
+      <UContainer class="max-w-7xl py-10 sm:py-14">
         <NuxtPage />
-      </main>
-    </UContainer>
+      </UContainer>
+    </UMain>
   </UApp>
 </template>

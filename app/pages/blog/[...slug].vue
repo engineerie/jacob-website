@@ -24,7 +24,7 @@ const surround = computed(() => {
 </script>
 
 <template>
-  <article v-if="post">
+  <UPage v-if="post" as="article">
     <header class="mb-7">
       <ProseH1>{{ post.title }}</ProseH1>
       <div v-if="(isProject ? post.start : post.date) || relatedLinks.length" class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
@@ -48,7 +48,9 @@ const surround = computed(() => {
         </nav>
       </div>
     </header>
-    <ContentRenderer :value="post" class="document-content" />
+    <UPageBody>
+      <ContentRenderer :value="post" class="document-content" />
+    </UPageBody>
     <UContentSurround
       v-if="surround.some(Boolean)"
       as="nav"
@@ -69,5 +71,5 @@ const surround = computed(() => {
         <span class="mt-1 block text-[13px] font-medium [overflow-wrap:anywhere]">{{ link.title }}</span>
       </template>
     </UContentSurround>
-  </article>
+  </UPage>
 </template>

@@ -1,6 +1,10 @@
 export default defineAppConfig({
   ui: {
     colors: { primary: 'zinc', neutral: 'zinc' },
+    page: {
+      slots: { center: 'mx-auto w-full min-w-0 max-w-[44rem]' },
+    },
+    pageBody: { base: 'mt-0 pb-0 space-y-0' },
     prose: {
       h1: { slots: { base: 'text-2xl sm:text-[26px] font-semibold leading-snug tracking-tight mb-5' } },
       h2: { slots: { base: 'text-base font-semibold tracking-tight mt-8 mb-3' } },

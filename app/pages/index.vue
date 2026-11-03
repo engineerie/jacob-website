@@ -23,7 +23,7 @@ function formatDate(date: string) {
 </script>
 
 <template>
-  <article>
+  <UPage as="article">
     <header class="mb-7">
       <ProseH1>{{ intro?.title || 'Jacob Bertilsson' }}</ProseH1>
       <nav aria-label="Contact and social profiles" class="-ml-1.5 flex flex-wrap items-center gap-1">
@@ -39,7 +39,9 @@ function formatDate(date: string) {
           class="cursor-default px-1.5 text-[13px]" />
       </nav>
     </header>
-    <ContentRenderer v-if="intro" :value="intro" class="document-content" />
+    <UPageBody>
+      <ContentRenderer v-if="intro" :value="intro" class="document-content" />
+    </UPageBody>
 
     <section id="writing" class="mt-12 scroll-mt-20" aria-labelledby="writing-title">
       <h2 id="writing-title" class="sr-only">Writing and projects</h2>
@@ -79,5 +81,5 @@ function formatDate(date: string) {
         </template>
       </UTabs>
     </section>
-  </article>
+  </UPage>
 </template>

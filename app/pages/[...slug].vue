@@ -13,8 +13,10 @@ useSeoMeta({ title: () => `${page.value?.title} — Jacob Bertilsson`, descripti
 </script>
 
 <template>
-  <article v-if="page">
+  <UPage v-if="page" as="article">
     <ProseH1>{{ page.title }}</ProseH1>
-    <ContentRenderer :value="page" class="document-content" />
-  </article>
+    <UPageBody>
+      <ContentRenderer :value="page" class="document-content" />
+    </UPageBody>
+  </UPage>
 </template>
