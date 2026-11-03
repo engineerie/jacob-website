@@ -14,9 +14,11 @@ export default defineAppConfig({
   },
   site: {
     name: 'Jacob Bertilsson',
+    email: 'jacob.bertilsson@gmail.com',
     social: {
       linkedin: 'https://www.linkedin.com/in/jacob-bertilsson-2a8ba2137/',
       bluesky: 'https://bsky.app/profile/jacobbertilsson.bsky.social',
+      github: 'https://github.com/engineerie',
     },
   },
 })

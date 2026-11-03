@@ -27,18 +27,18 @@ const items = computed<BreadcrumbItem[]>(() => {
 <template>
   <div class="min-w-0">
     <span v-if="isHome"
-      class="-ml-1.5 inline-flex cursor-default px-1.5 py-1 text-[13px] font-medium text-highlighted lg:hidden">{{
+      class="-ml-1.5 inline-flex cursor-default px-1.5 py-1 text-sm font-medium text-default lg:hidden">{{
         site.name }}</span>
     <UButton v-else to="/" :label="site.name" color="neutral" variant="ghost" size="xs"
       class="-ml-1.5 cursor-default px-1.5 text-sm lg:hidden" />
     <UBreadcrumb :items="items" color="neutral" class="-ml-1.5 hidden lg:block"
-      :ui="{ list: 'gap-0.5', link: 'cursor-default p-0 text-[13px]', item: 'first:shrink-0', separatorIcon: 'size-3' }">
+      :ui="{ list: 'gap-0.5', link: 'cursor-default p-0 text-sm', item: 'first:shrink-0', separatorIcon: 'size-3' }">
       <template #item="{ item, active }">
         <span v-if="active"
-          class="min-w-0 cursor-default truncate px-1.5 py-1 text-[13px] font-medium text-highlighted">{{ item.label
+          class="min-w-0 cursor-default truncate px-1.5 py-1 text-sm font-medium text-default">{{ item.label
           }}</span>
         <UButton v-else as="span" :label="item.label" color="neutral" variant="ghost" size="xs"
-          class="min-w-0 cursor-default px-1.5 text-[13px]" />
+          class="min-w-0 cursor-default px-1.5 text-sm" />
       </template>
     </UBreadcrumb>
   </div>

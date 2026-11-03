@@ -11,6 +11,16 @@ const formattedDate = computed(() => post.value?.date
   ? new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(post.value.date)) : null)
 const relatedLinks = computed(() => normalizePostLinks({ links: post.value?.links, link: post.value?.link }))
 const isProject = computed(() => getPostType(post.value?.Type) === 'Project')
+const { data: posts } = await useWritingPosts()
+const surround = computed(() => {
+  const items = (posts.value || []).filter(item => getPostType(item.Type) === getPostType(post.value?.Type))
+  const index = items.findIndex(item => item.path === post.value?.path)
+  if (index < 0) return [null, null]
+  return [
+    items[index - 1] ? { ...items[index - 1], direction: 'Previous', icon: 'i-lucide-arrow-left', class: 'col-start-1' } : null,
+    items[index + 1] ? { ...items[index + 1], direction: 'Next', icon: 'i-lucide-arrow-right', class: 'col-start-2' } : null,
+  ]
+})
 </script>
 
 <template>
@@ -39,5 +49,25 @@ const isProject = computed(() => getPostType(post.value?.Type) === 'Project')
       </div>
     </header>
     <ContentRenderer :value="post" class="document-content" />
+    <UContentSurround
+      v-if="surround.some(Boolean)"
+      as="nav"
+      aria-label="Previous and next items"
+      :surround="surround"
+      class="mt-12"
+      :ui="{
+        root: 'grid-cols-2 gap-4',
+        link: 'min-w-0 cursor-default rounded-md border-0 px-2 py-2 hover:bg-elevated text-default focus-visible:border-transparent',
+      }"
+    >
+      <template #link="{ link }">
+        <span class="flex items-center gap-1.5 text-xs text-muted" :class="link.direction === 'Next' ? 'justify-end' : ''">
+          <UIcon v-if="link.direction === 'Previous'" :name="link.icon" class="size-3.5 shrink-0" />
+          {{ link.direction }}
+          <UIcon v-if="link.direction === 'Next'" :name="link.icon" class="size-3.5 shrink-0" />
+        </span>
+        <span class="mt-1 block text-[13px] font-medium [overflow-wrap:anywhere]">{{ link.title }}</span>
+      </template>
+    </UContentSurround>
   </article>
 </template>

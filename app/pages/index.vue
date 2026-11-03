@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { getPostType } from '~~/shared/utils/post-type.mjs'
 
+const { site } = useAppConfig()
 const { data: intro } = await useAsyncData('home-intro', () => queryCollection('content').path('/').first())
-const { data: posts } = await useAsyncData('home-posts', () => queryCollection('blog')
-  .where('draft', '=', false).order('date', 'DESC').order('title', 'ASC')
-  .select('path', 'title', 'date', 'Type', 'start', 'end').all())
+const { data: posts } = await useWritingPosts()
 useSeoMeta({ title: () => intro.value?.title || 'Jacob Bertilsson', description: () => intro.value?.description })
 
 const selectedTab = useState<string>('writing-tab', () => 'blog')
@@ -25,7 +24,21 @@ function formatDate(date: string) {
 
 <template>
   <article>
-    <ProseH1>{{ intro?.title || 'Jacob Bertilsson' }}</ProseH1>
+    <header class="mb-7">
+      <ProseH1>{{ intro?.title || 'Jacob Bertilsson' }}</ProseH1>
+      <nav aria-label="Contact and social profiles" class="-ml-1.5 flex flex-wrap items-center gap-1">
+        <ContactEmail :address="site.email" />
+        <UButton :to="site.social.linkedin" label="LinkedIn" icon="i-simple-icons-linkedin"
+          target="_blank" rel="me noopener noreferrer" color="neutral" variant="ghost" size="xs"
+          class="cursor-default px-1.5 text-[13px]" />
+        <UButton :to="site.social.bluesky" label="Bluesky" icon="i-simple-icons-bluesky"
+          target="_blank" rel="me noopener noreferrer" color="neutral" variant="ghost" size="xs"
+          class="cursor-default px-1.5 text-[13px]" />
+        <UButton :to="site.social.github" label="GitHub" icon="i-simple-icons-github"
+          target="_blank" rel="me noopener noreferrer" color="neutral" variant="ghost" size="xs"
+          class="cursor-default px-1.5 text-[13px]" />
+      </nav>
+    </header>
     <ContentRenderer v-if="intro" :value="intro" class="document-content" />
 
     <section id="writing" class="mt-12 scroll-mt-20" aria-labelledby="writing-title">
@@ -37,9 +50,9 @@ function formatDate(date: string) {
           <ul v-if="item.posts.length">
             <li v-for="post in item.posts" :key="post.path">
               <NuxtLink :to="post.path"
-                class="group -mx-2 flex min-h-12 cursor-default items-center gap-3 rounded-md px-2 py-3 transition-colors hover:bg-elevated/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary motion-reduce:transition-none">
+                class="group -mx-2 flex min-h-12 cursor-default items-start gap-3 rounded-md px-2 py-3 transition-colors hover:bg-elevated/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary motion-reduce:transition-none sm:items-center">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" class="size-4 shrink-0 text-dimmed" role="img"
+                  stroke-linejoin="round" class="mt-0.5 size-4 shrink-0 text-dimmed sm:mt-0" role="img"
                   :aria-label="getPostType(post.Type)">
                   <title>{{ getPostType(post.Type) }}</title>
                   <path v-if="item.value === 'publications'"
@@ -51,12 +64,14 @@ function formatDate(date: string) {
                     <path d="M14 3v6h6M8 13h8M8 17h5" />
                   </template>
                 </svg>
-                <span class="min-w-0 flex-1 font-medium text-default group-hover:text-highlighted">{{ post.title
-                  }}</span>
-                <ProjectPeriod v-if="item.value === 'projects'" :start="post.start" :end="post.end" class="shrink-0 text-xs tabular-nums text-muted" />
-                <time v-else-if="post.date" :datetime="post.date" class="shrink-0 text-xs tabular-nums text-muted">{{
-                  formatDate(post.date)
-                  }}</time>
+                <span class="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
+                  <span class="min-w-0 flex-1 font-medium text-default group-hover:text-highlighted">{{ post.title
+                    }}</span>
+                  <ProjectPeriod v-if="item.value === 'projects'" :start="post.start" :end="post.end" class="shrink-0 text-xs tabular-nums text-muted" />
+                  <time v-else-if="post.date" :datetime="post.date" class="shrink-0 text-xs tabular-nums text-muted">{{
+                    formatDate(post.date)
+                    }}</time>
+                </span>
               </NuxtLink>
             </li>
           </ul>

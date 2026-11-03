@@ -2,7 +2,7 @@
 @import "@nuxt/ui";
 
 :root {
-  --ui-header-height: 3.5rem;
+  --ui-header-height: 2.75rem;
   --ui-bg: #fcfcfd;
   --ui-bg-muted: #f6f6f8;
   --ui-bg-elevated: #f0f0f3;

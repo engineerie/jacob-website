@@ -9,35 +9,13 @@ const { site } = useAppConfig()
       :title="site.name"
       to="/"
       :toggle="false"
-      class="mx-auto w-full max-w-3xl border-b-0"
+      class="mx-auto w-full max-w-3xl border-b-0 bg-default backdrop-blur-none"
       :ui="{ left: 'min-w-0', title: 'text-xs font-medium', right: 'shrink-0 lg:flex-none' }"
     >
       <template #left>
         <HeaderBreadcrumb />
       </template>
       <template #right>
-        <UButton
-          :to="site.social.linkedin"
-          target="_blank"
-          rel="me noopener noreferrer"
-          color="neutral"
-          variant="ghost"
-          size="sm"
-          square
-          icon="i-simple-icons-linkedin"
-          aria-label="Jacob Bertilsson on LinkedIn"
-        />
-        <UButton
-          :to="site.social.bluesky"
-          target="_blank"
-          rel="me noopener noreferrer"
-          color="neutral"
-          variant="ghost"
-          size="sm"
-          square
-          icon="i-simple-icons-bluesky"
-          aria-label="Jacob Bertilsson on Bluesky"
-        />
         <UColorModeButton size="sm" />
       </template>
     </UHeader>
