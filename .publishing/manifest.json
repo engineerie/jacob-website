@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "posts": {
+    "Test for publishing.md": {
+      "file": "content/blog/test-for-publishing.md",
+      "date": "2026-11-03",
+      "sha256": "682cac7279aa1c49080061da685824eef6cbe89fa6a9cc5a80f8c1a9c103dda6"
+    }
+  },
+  "images": {
+    "87565d65e208f8173827553f289dca6566e09aaef74e8d1300d59d76383a18fe": {
+      "mode": "dither",
+      "sourceBytes": 67754,
+      "variants": [
+        {
+          "file": "public/images/obsidian/87565d65e208f8173827553f-480.webp",
+          "width": 480,
+          "height": 270,
+          "bytes": 15300,
+          "sha256": "e251d4727dfbd196f7a1b0a8e73c698fd584d26cc89f505b61a85be8f6fb2879"
+        },
+        {
+          "file": "public/images/obsidian/87565d65e208f8173827553f-960.webp",
+          "width": 960,
+          "height": 540,
+          "bytes": 52900,
+          "sha256": "c51037f4ff5976e1803d81604fd4641606c7095cbe2695658b218c01f8c779e2"
+        }
+      ]
+    }
+  }
+}

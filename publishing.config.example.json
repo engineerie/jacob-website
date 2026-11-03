@@ -1,0 +1,7 @@
+{
+  "vaultPath": "/path/to/your/Obsidian vault",
+  "publishedPath": "Website/Published",
+  "timeZone": "Europe/London",
+  "widths": [480, 960],
+  "imageMode": "dither"
+}

@@ -6,8 +6,13 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "posts:sync": "node scripts/sync-posts.mjs",
+    "posts:preview": "pnpm posts:sync && nuxt dev",
+    "posts:publish": "node scripts/publish-posts.mjs",
+    "test:publishing": "node --test scripts/tests/*.test.mjs"
   },
+  "packageManager": "pnpm@10.15.1",
   "dependencies": {
     "@nuxt/content": "^3.16.1",
     "@nuxt/ui": "^4.12.0",

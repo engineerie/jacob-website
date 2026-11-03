@@ -2,8 +2,9 @@
 
 A minimal personal site built with Nuxt 4, Nuxt UI 4, and Nuxt Content.
 
-The planned Obsidian publishing workflow and low-resource image processing are
-documented in [the publishing plan](docs/publishing-plan.md).
+The Obsidian publishing workflow and low-resource image processing are documented
+in [the publishing guide](docs/publishing.md). Design principles are recorded in
+[the publishing plan](docs/publishing-plan.md).
 
 ## Develop
 
@@ -24,6 +25,20 @@ and dark palettes and document text size live in `app/assets/css/main.css`.
 The header name and social profile URLs live in `app/app.config.ts`.
 
 ## Add a post from Obsidian
+
+The automated workflow is:
+
+1. Move a note into `Website/Published` in your Obsidian vault, with its images.
+2. Run `pnpm posts:sync`, then check the local preview.
+3. Run `pnpm posts:publish` to validate, commit the generated files, and push to
+   GitHub Pages.
+
+The current computer's vault is configured in the ignored `.publishing.local.json`.
+For another computer, copy `publishing.config.example.json` to that filename and
+set `vaultPath`. See [the publishing guide](docs/publishing.md) for image settings,
+drafts, links, and deployment details.
+
+You can also add Markdown manually:
 
 1. Write a Markdown note in Obsidian.
 2. Add properties at the top, using this example:
@@ -53,7 +68,7 @@ Use the title property instead of repeating it as a `#` heading in the body.
 Add `draft: true` to hide a post from the list and its public route.
 These are published files, so keep private Obsidian notes outside `content/`.
 
-Use standard Markdown links (`[Note](/blog/note)`) and images rather than
+For manually added posts, use standard Markdown links (`[Note](/blog/note)`) and images rather than
 Obsidian-specific `[[wikilinks]]` or `![[embeds]]`. Put image files in
 `public/images/` and reference them as `![Description](/images/photo.jpg)`.
 

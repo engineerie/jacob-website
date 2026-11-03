@@ -12,7 +12,10 @@ const formattedDate = computed(() => post.value?.date
   <article v-if="post">
     <header class="mb-7">
       <ProseH1>{{ post.title }}</ProseH1>
-      <time v-if="post.date" :datetime="post.date" class="text-xs text-muted">{{ formattedDate }}</time>
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted">
+        <time v-if="post.date" :datetime="post.date">{{ formattedDate }}</time>
+        <ULink v-if="post.link" :to="post.link" target="_blank" rel="noopener noreferrer">Source ↗</ULink>
+      </div>
     </header>
     <ContentRenderer :value="post" class="document-content" />
   </article>

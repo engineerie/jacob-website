@@ -5,5 +5,6 @@ export default defineNuxtConfig({
   colorMode: { preference: "system", fallback: "light" },
   app: { head: { htmlAttrs: { lang: "en" } } },
   devtools: { enabled: true },
+  nitro: { prerender: { routes: ["/", "/about"], crawlLinks: true } },
   compatibilityDate: "2024-04-03",
 });

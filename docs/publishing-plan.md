@@ -1,7 +1,8 @@
 # Publishing and low-resource design
 
-This records the agreed direction for future development. The exporter, image
-pipeline, GitHub connection, and deployment automation are not implemented yet.
+This records the design direction. The exporter and image pipeline are implemented;
+see [the operating instructions](publishing.md). The GitHub Pages workflow builds
+and deploys the exported files without access to the vault.
 
 ## Authoring and publishing
 

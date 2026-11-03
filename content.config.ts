@@ -6,7 +6,7 @@ export default defineContentConfig({
     blog: defineCollection({
       type: 'page',
       source: 'blog/**/*.md',
-      schema: z.object({ date: z.string().optional(), draft: z.boolean().default(false) }),
+      schema: z.object({ date: z.string().optional(), draft: z.boolean().default(false), link: z.string().url().optional() }),
     }),
   },
 })
