@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { getPostType } from '~~/shared/utils/post-type.mjs'
+
 const { data: intro } = await useAsyncData('home-intro', () => queryCollection('content').path('/').first())
 const { data: posts } = await useAsyncData('home-posts', () => queryCollection('blog')
   .where('draft', '=', false).order('date', 'DESC').order('title', 'ASC')
-  .select('path', 'title', 'date').all())
+  .select('path', 'title', 'date', 'Type').all())
 useSeoMeta({ title: () => intro.value?.title || 'Jacob Bertilsson', description: () => intro.value?.description })
 
 function formatDate(date: string) {
@@ -25,9 +27,13 @@ function formatDate(date: string) {
             :to="post.path"
             class="group -mx-2 flex min-h-12 items-center gap-3 rounded-md px-2 py-3 transition-colors hover:bg-elevated/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary motion-reduce:transition-none"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="size-4 shrink-0 text-dimmed" aria-hidden="true">
-              <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6Z" />
-              <path d="M14 3v6h6M8 13h8M8 17h5" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0 text-dimmed" role="img" :aria-label="getPostType(post.Type)">
+              <title>{{ getPostType(post.Type) }}</title>
+              <path v-if="getPostType(post.Type) === 'Published article'" d="M12 7v14M3 3h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5v16h-5a4 4 0 0 0-4 2 4 4 0 0 0-4-2H3V3Z" />
+              <template v-else>
+                <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6Z" />
+                <path d="M14 3v6h6M8 13h8M8 17h5" />
+              </template>
             </svg>
             <span class="min-w-0 flex-1 font-medium text-default group-hover:text-highlighted">{{ post.title }}</span>
             <time v-if="post.date" :datetime="post.date" class="shrink-0 text-xs tabular-nums text-muted">{{ formatDate(post.date) }}</time>

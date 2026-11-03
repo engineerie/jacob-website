@@ -52,6 +52,17 @@ the filename. A matching leading title heading is removed from the export so the
 website displays it once. The first import supplies a publication date, which
 stays stable across later edits. An explicit date overrides it.
 
+The optional `Type` property controls the writing-list icon: `Blog post` uses a
+document, and `Published article` uses an open book. Obsidian's single-item list
+format is supported, as is a plain text property:
+
+```yaml
+Type:
+  - Published article
+```
+
+Choose one type per post. Posts without the property retain the document icon.
+
 Use `links` for related websites. A list item can be a plain http(s) URL or a
 quoted Markdown link such as `"[Publisher](https://example.com/book)"`. Named links
 display their label; plain URLs display their hostname without `www.`. The post

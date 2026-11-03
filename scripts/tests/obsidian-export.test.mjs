@@ -269,3 +269,15 @@ test('preserves multiple source links and rejects invalid ones before changing a
   await assert.rejects(f.sync(), /Note.md: Links must/)
   assert.equal(await readFile(file, 'utf8'), before)
 })
+
+test('preserves the Obsidian Type list and rejects ambiguous types before changing an export', async (t) => {
+  const f = await fixture(t)
+  await f.note('Note.md', '---\nType:\n  - Published article\n---\n\nAn article.')
+  await f.sync()
+  const file = path.join(f.projectRoot, 'content/blog/note.md')
+  const before = await readFile(file, 'utf8')
+  assert.match(before, /Type:\n  - Published article/)
+  await f.note('Note.md', '---\nType:\n  - Blog post\n  - Published article\n---\n\nChanged.')
+  await assert.rejects(f.sync(), /Note.md: Type must contain only one/)
+  assert.equal(await readFile(file, 'utf8'), before)
+})
