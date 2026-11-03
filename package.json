@@ -1,0 +1,26 @@
+{
+  "name": "Jacob_Website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "@nuxt/content": "^3.16.1",
+    "@nuxt/ui": "^4.12.0",
+    "better-sqlite3": "^13.0.3",
+    "nuxt": "^4.6.3",
+    "tailwindcss": "^4.3.3",
+    "vue": "^3.5.43",
+    "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "@iconify-json/simple-icons": "^1.2.101",
+    "mdast-util-from-markdown": "^2.1.0",
+    "sharp": "^0.34.5",
+    "yaml": "^2.9.1"
+  }
+}
