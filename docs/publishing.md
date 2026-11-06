@@ -55,7 +55,7 @@ stays stable across later edits. An explicit date overrides it.
 The optional `Type` property places each entry in one of the homepage tabs:
 
 - `Blog post` → Blog, with a document icon.
-- `Published article` → Publications, with an open-book icon.
+- `Published article` → Publications, with a closed-book icon.
 - `Project` → Projects, with a folder icon (`Projects` is also accepted).
 
 All notes stay in the same `Website/Published` folder. Each tab lists its entries
@@ -65,6 +65,11 @@ newest first. Obsidian's single-item list format is supported, as is plain text:
 Type:
   - Published article
 ```
+
+For publications, add `publication: Mustarinda Magazine` (or Obsidian's
+`Publication` list property). The publication name appears below the title in
+the Publications list and among the article's properties. Multiple names are
+separated by commas; empty values are hidden.
 
 Choose one type per entry. Notes without the property appear in Blog. Tab panels
 remain in generated HTML so publication and project pages are included in static
@@ -219,3 +224,33 @@ already exported content and images committed to the repository.
 
 The tracked `.publishing/manifest.json` records output ownership and publication
 dates. Keep it in version control alongside generated posts and images.
+
+## Charts from Markdown tables
+
+Place a chart comment immediately above an ordinary Markdown table (a blank line is fine):
+
+```md
+<!-- chart: type=line x=Year title="Annual readership" -->
+
+| Year | Readers |
+|------|---------|
+| 2023 | 1200    |
+| 2024 | 1850    |
+| 2025 | 2600    |
+```
+
+Supported types are `line`, `area` and `bar`. `x` must exactly match a column heading. Every other column becomes a numeric series. Use unique column headings and x values, and plain numbers without units or thousands separators. The optional title defaults to the series names. Invalid chart data stops sync with an error identifying the post.
+
+Obsidian keeps the editable table; sync generates the website chart with a collapsible source data table. Unmarked tables and fenced code examples stay unchanged. Shared colours and table styles live in `app/assets/css/main.css`; chart layout and defaults live in `app/components/content/PostChart.vue`. For posts managed with `sync: website`, use the generated `post-chart` component format directly; Obsidian export transformations do not run on those posts.
+
+### Timelines
+
+For historical events, use `<!-- chart: type=timeline date=Year group=Theme title="Forestry history" -->` with `Year`, `Event` and optional `Theme` columns. `date` selects the date column; `label` selects the event-label column (default `Event`). Values can be `YYYY`, `YYYY-MM` or `YYYY-MM-DD`; the original precision is retained in the tooltip and data table. Years/months are positioned at their start on a UTC elapsed-time axis, without displaying an invented exact date. Multi-year spans use year ticks. Events on the same date can have different labels; events sharing a date and group occupy the same position. Lane order follows the first appearance in the table; enter rows chronologically for a historical sequence. Additional text columns, such as `Notes`, stay available in View data.
+
+Paste [the historical forestry example](examples/forestry-timeline.md) into an Obsidian note to try this. `Date` and `Year` headings are also detected automatically when no range columns are present. Point events use dots; periods use range bars as described below. For historical events with `group=Theme`, the y axis shows one lane per theme, with multiple event dots per lane; hovering shows the event name and date above its crosshair. Omit `group` to retain a separate lane for each event. Date-range activities retain their separate lanes even when grouped by colour.
+
+Use `type=timeline` for horizontal date ranges. By default the table needs `Activity`, `Start` and `End` columns. Optionally add `group=Phase` to colour activities by a group column. Custom headings work with `label="Task name" start=From end=Until`. Other text columns are preserved in View data.
+
+Dates must be real `YYYY-MM-DD` dates, both endpoints are required, and the end cannot precede the start. End dates are inclusive, so equal dates create a one-day activity. Labels must be unique and non-empty. Rows retain table order; overlapping activities appear on separate lanes. The axis uses elapsed time in UTC, avoiding daylight-saving shifts. Timelines scroll horizontally on small screens. The two shared colours cycle for more than two groups.
+
+Paste the contents of [the timeline example](examples/timeline.md) into a published Obsidian note, then run `pnpm posts:preview` (or `pnpm posts:sync`). No additional dependency is needed: `PostTimeline.vue` uses `UChart` with a TanStack horizontal range-bar definition. Shared styling remains in `app/assets/css/main.css`, and layout/date-axis defaults live in `app/utils/timeline-chart.mjs`. This supports historical events and date ranges rather than dependency arrows, drag editing or open-ended dates.

@@ -13,6 +13,7 @@ export default defineContentConfig({
       source: 'blog/**/*.md',
       schema: z.object({
         date: z.string().optional(),
+        publication: z.string().nullish(),
         start: z.string().nullish().refine(isProjectDate, 'Use YYYY-MM-DD for start.'),
         end: z.string().nullish().refine(isProjectDate, 'Use YYYY-MM-DD for end.'),
         draft: z.boolean().default(false),

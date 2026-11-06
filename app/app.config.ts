@@ -1,28 +1,39 @@
 export default defineAppConfig({
   ui: {
-    colors: { primary: 'zinc', neutral: 'zinc' },
+    colors: { primary: "zinc", neutral: "zinc" },
     page: {
-      slots: { center: 'mx-auto w-full min-w-0 max-w-[44rem]' },
+      slots: { center: "mx-auto w-full min-w-0 max-w-[44rem]" },
     },
-    pageBody: { base: 'mt-0 pb-0 space-y-0' },
+    pageBody: { base: "mt-0 pb-0 space-y-0" },
     prose: {
-      h1: { slots: { base: 'text-2xl sm:text-[26px] font-semibold leading-snug tracking-tight mb-5' } },
-      h2: { slots: { base: 'text-base font-semibold tracking-tight mt-8 mb-3' } },
-      h3: { slots: { base: 'text-[15px] font-semibold mt-6 mb-2' } },
-      p: { base: 'my-4 leading-6 text-pretty' },
-      li: { base: 'my-1 ps-1 leading-6 [&>ul]:my-0' },
-      ul: { base: 'list-disc ps-5 my-4 marker:text-dimmed' },
-      ol: { base: 'list-decimal ps-5 my-4 marker:text-muted' },
-      blockquote: { base: 'border-s-2 border-accented ps-4 text-muted' },
+      h1: {
+        slots: {
+          base: "text-2xl sm:text-[26px] font-semibold leading-snug tracking-tight mb-5",
+        },
+      },
+      h2: {
+        slots: { base: "text-base font-semibold tracking-tight mt-8 mb-3" },
+      },
+      h3: { slots: { base: "text-[15px] font-semibold mt-6 mb-2" } },
+      p: { base: "my-4 leading-6 text-pretty" },
+      li: { base: "my-1 ps-1 leading-6 [&>ul]:my-0" },
+      ul: { base: "list-disc ps-5 my-4 marker:text-dimmed" },
+      ol: { base: "list-decimal ps-5 my-4 marker:text-muted" },
+      blockquote: { base: "border-s-2 border-accented ps-4 text-muted" },
     },
   },
   site: {
-    name: 'Jacob Bertilsson',
-    email: 'jacob.bertilsson@gmail.com',
+    name: "Jacob Bertilsson",
+    email: "jacob.bertilsson@gmail.com",
+    typeIconColors: {
+      "Blog post": "text-amber-500 dark:text-amber-400",
+      "Published article": "text-indigo-500 dark:text-indigo-400",
+      Project: "text-lime-600 dark:text-lime-500",
+    },
     social: {
-      linkedin: 'https://www.linkedin.com/in/jacob-bertilsson-2a8ba2137/',
-      bluesky: 'https://bsky.app/profile/jacobbertilsson.bsky.social',
-      github: 'https://github.com/engineerie',
+      linkedin: "https://www.linkedin.com/in/jacob-bertilsson-2a8ba2137/",
+      bluesky: "https://bsky.app/profile/jacobbertilsson.bsky.social",
+      github: "https://github.com/engineerie",
     },
   },
-})
+});

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { normalizePostLinks } from '~~/shared/utils/post-links.mjs'
 import { getPostType } from '~~/shared/utils/post-type.mjs'
+import { getPostPublication } from '~~/shared/utils/post-publication.mjs'
 
 const route = useRoute()
+const { site } = useAppConfig()
 const { data: post } = await useAsyncData('post-' + route.path, () => queryCollection('blog')
   .path(route.path).where('draft', '=', false).first())
 if (!post.value) throw createError({ statusCode: 404, statusMessage: 'Post not found' })
@@ -11,6 +13,7 @@ const formattedDate = computed(() => post.value?.date
   ? new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(post.value.date)) : null)
 const relatedLinks = computed(() => normalizePostLinks({ links: post.value?.links, link: post.value?.link }))
 const postType = computed(() => getPostType(post.value?.Type))
+const publication = computed(() => getPostPublication(post.value))
 const postTypeIcon = computed(() => ({
   'Blog post': 'i-lucide-file-text',
   'Published article': 'i-lucide-book',
@@ -32,14 +35,16 @@ const surround = computed(() => {
 <template>
   <UPage v-if="post" as="article">
     <header class="mb-7">
-      <ProseH1>{{ post.title }}</ProseH1>
+      <ProseH1 :class="post.description?.trim() ? 'mb-2' : undefined">{{ post.title }}</ProseH1>
+      <p v-if="post.description?.trim()" class="mb-5 text-[15px] leading-6 text-muted">{{ post.description }}</p>
       <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
         <ProjectPeriod v-if="isProject" :start="post.start" :end="post.end" class="shrink-0" />
         <time v-else-if="post.date" :datetime="post.date" class="shrink-0">{{ formattedDate }}</time>
         <span class="inline-flex shrink-0 items-center gap-1.5">
-          <UIcon :name="postTypeIcon" class="size-3.5 shrink-0" aria-hidden="true" />
+          <UIcon :name="postTypeIcon" :class="site.typeIconColors[postType]" class="size-3.5 shrink-0" aria-hidden="true" />
           {{ postType }}
         </span>
+        <span v-if="postType === 'Published article' && publication" class="min-w-0 [overflow-wrap:anywhere]">{{ publication }}</span>
         <nav v-if="relatedLinks.length" aria-label="Related links" class="flex min-w-0 max-w-full flex-wrap gap-1">
           <UButton
             v-for="link in relatedLinks"

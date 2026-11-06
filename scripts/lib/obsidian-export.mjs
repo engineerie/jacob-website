@@ -6,7 +6,9 @@ import { fromMarkdown } from 'mdast-util-from-markdown'
 import { parse, stringify } from 'yaml'
 import { normalizePostLinks } from '../../shared/utils/post-links.mjs'
 import { getPostType } from '../../shared/utils/post-type.mjs'
+import { getPostPublication } from '../../shared/utils/post-publication.mjs'
 import { getProjectPeriod } from '../../shared/utils/project-period.mjs'
+import { transformPostCharts } from './post-charts.mjs'
 
 export const MANIFEST = '.publishing/manifest.json'
 const IMAGE_DIR = 'public/images/obsidian/'
@@ -336,7 +338,10 @@ export async function exportPosts({
       body = body.slice(0, edit.start) + edit.text + body.slice(edit.end)
       nextStart = edit.start
     }
+    body = transformPostCharts(body, note.source)
     const metadata = { ...note.metadata, title: note.title, date: note.date, draft: false }
+    if ('publication' in metadata || 'Publication' in metadata) metadata.publication = getPostPublication(metadata)
+    delete metadata.Publication
     delete metadata.imageMode
     delete metadata.imageOverrides
     const content = `---\n${stringify(metadata, { lineWidth: 0 })}---\n\n${body.trim()}\n`

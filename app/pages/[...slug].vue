@@ -14,7 +14,8 @@ useSeoMeta({ title: () => `${page.value?.title} — Jacob Bertilsson`, descripti
 
 <template>
   <UPage v-if="page" as="article">
-    <ProseH1>{{ page.title }}</ProseH1>
+    <ProseH1 :class="page.description?.trim() ? 'mb-2' : undefined">{{ page.title }}</ProseH1>
+    <p v-if="page.description?.trim()" class="mb-5 text-[15px] leading-6 text-muted">{{ page.description }}</p>
     <UPageBody>
       <ContentRenderer :value="page" class="document-content" />
     </UPageBody>

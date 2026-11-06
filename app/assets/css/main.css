@@ -1,6 +1,16 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+.post-timeline-scroll {
+  overflow-x: auto;
+}
+.post-timeline-canvas {
+  min-width: 640px;
+}
+.post-timeline .post-chart-crosshair {
+  bottom: 44px;
+}
+
 :root {
   --ui-header-height: 2.75rem;
   --ui-bg: #fcfcfd;
@@ -32,4 +42,154 @@ body {
 
 .document-content {
   font-size: 15px;
+}
+
+/* Shared editorial chart theme. Post Markdown contains no visual styling. */
+.post-chart {
+  --post-chart-future-opacity: 0.3;
+  /* Yellow lead with a shared neutral companion in both modes. */
+  --ui-chart-1: var(--color-amber-500);
+  --ui-chart-2: var(--color-indigo-500);
+  margin-block: 2.5rem;
+  min-width: 0;
+  color: var(--ui-text-muted);
+}
+
+.post-chart-title {
+  margin-bottom: 1.25rem;
+  color: var(--ui-text-highlighted);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.post-chart-card {
+  border: 1px solid var(--ui-border);
+  border-radius: 8px;
+  padding: 32px 24px 24px 12px;
+  background: transparent;
+}
+.post-chart-card svg {
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.post-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  margin-top: 20px;
+  font-size: 12px;
+}
+.post-chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.post-chart-swatch {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: none;
+}
+.post-chart-readout {
+  position: relative;
+  height: 24px;
+  margin-bottom: 8px;
+  pointer-events: none;
+}
+.post-chart-readout-values {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: max-content;
+  max-width: 100%;
+  flex-wrap: wrap;
+  transform: translateX(-50%);
+}
+.post-chart-plot {
+  position: relative;
+}
+.post-chart-mask-defs {
+  position: absolute;
+  pointer-events: none;
+}
+.post-chart-mask-future {
+  fill-opacity: var(--post-chart-future-opacity);
+}
+.post-chart-plot[data-focused] .ts-chart__marks {
+  mask: var(--post-chart-mask);
+}
+.post-chart-focus {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.post-chart-crosshair {
+  position: absolute;
+  top: 16px;
+  bottom: 40px;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--ui-text-dimmed) 0 1px,
+    transparent 1px 6px
+  );
+  transform: translateX(-50%);
+}
+.post-chart-point {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.post-chart-readout-series {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--ui-text-highlighted);
+}
+.post-chart-details {
+  margin-top: 1rem;
+  font-size: 12px;
+}
+.post-chart-details summary {
+  width: fit-content;
+  cursor: pointer;
+}
+.post-chart-details summary:hover {
+  color: var(--ui-text-highlighted);
+}
+.post-chart-table-scroll {
+  overflow-x: auto;
+}
+.post-chart table {
+  width: 100%;
+  margin-top: 0.75rem;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.post-chart th,
+.post-chart td {
+  padding: 0.5rem 0.75rem;
+  text-align: start;
+  border-bottom: 1px solid var(--ui-border);
+  font-variant-numeric: tabular-nums;
+}
+.post-chart th {
+  color: var(--ui-text-highlighted);
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .post-chart-card {
+    padding: 16px 6px 12px 0;
+  }
 }

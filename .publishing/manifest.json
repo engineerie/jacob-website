@@ -1,13 +1,11 @@
 {
   "version": 1,
   "posts": {
-    "Insensible relations at the margins of ecosystem care.md": {
+    "Insensible Relations at the Margins of Ecosystem Care.md": {
       "file": "content/blog/insensible-relations-at-the-margins-of-ecosystem-care.md",
       "date": "2024-09-01",
-      "sha256": "b8459046206530e777fb9d494d539970dc988c172f1eff11f031db72f3fad9e0",
-      "images": [
-        "31416bf0da06c77866f79b3d89fa58fc22634b707673bdc382153e3e8eac5975"
-      ]
+      "sha256": "3ddcd76ace1897d414c716883015e24d72133b623d497aea87fa799c447b0b98",
+      "images": []
     },
     "Svampskog.se.md": {
       "file": "content/blog/svampskog-se.md",
@@ -17,36 +15,28 @@
         "40c25b308774305a401b7ea1efd300cff1adcc5fc0da147911e9fda44269232c"
       ]
     },
+    "Technology vs.md": {
+      "file": "content/blog/technology-vs.md",
+      "date": "2026-11-06",
+      "sha256": "720fd067fb7a4b1d783099aba951efc4fea7ccf230d65e2b3e6a1d7647add9f9",
+      "images": [
+        "031ab9ee8659bbc94b0f1cc9ef2aa09adaac5c3a5d79762199140726380fa232"
+      ]
+    },
+    "The productive forest.md": {
+      "file": "content/blog/the-productive-forest.md",
+      "date": "2026-11-06",
+      "sha256": "e5dbae8bbb1466d6158882f16aa30d2ceb3632ce9e6c86c6b12c6fd89525ade9",
+      "images": []
+    },
     "You Won't See it Above Ground.md": {
       "file": "content/blog/you-won-t-see-it-above-ground.md",
       "date": "2025-05-01",
-      "sha256": "f7dcd068cce409961bf9b91a5abc4a7a0935bae4e306bee67cfb65176f50a167",
-      "images": [
-        "b27e4e9daef2d64892c3f1d3e2eca63c72d81521c3a24ebab6793ce3a50aaa80"
-      ]
+      "sha256": "f76224879092f27a5c9d8c172f4ad91694e089422fab944fad95bf707237360b",
+      "images": []
     }
   },
   "images": {
-    "31416bf0da06c77866f79b3d89fa58fc22634b707673bdc382153e3e8eac5975": {
-      "mode": "dither",
-      "sourceBytes": 657610,
-      "variants": [
-        {
-          "file": "public/images/obsidian/31416bf0da06c77866f79b3d-480.webp",
-          "width": 480,
-          "height": 216,
-          "bytes": 11756,
-          "sha256": "c323d0a38abca9e7240012f398404bf5734f1b8bd22be8dcde056347e98cc6a1"
-        },
-        {
-          "file": "public/images/obsidian/31416bf0da06c77866f79b3d-976.webp",
-          "width": 976,
-          "height": 440,
-          "bytes": 50516,
-          "sha256": "1ad16aaaa7206c7c05579dd601f7293ed82aacdcac0614b593a9dd52b52d76c5"
-        }
-      ]
-    },
     "40c25b308774305a401b7ea1efd300cff1adcc5fc0da147911e9fda44269232c": {
       "mode": "dither",
       "sourceBytes": 421913,
@@ -67,23 +57,23 @@
         }
       ]
     },
-    "b27e4e9daef2d64892c3f1d3e2eca63c72d81521c3a24ebab6793ce3a50aaa80": {
+    "031ab9ee8659bbc94b0f1cc9ef2aa09adaac5c3a5d79762199140726380fa232": {
       "mode": "dither",
-      "sourceBytes": 114208,
+      "sourceBytes": 138182,
       "variants": [
         {
-          "file": "public/images/obsidian/b27e4e9daef2d64892c3f1d3-480.webp",
+          "file": "public/images/obsidian/031ab9ee8659bbc94b0f1cc9-480.webp",
           "width": 480,
           "height": 216,
-          "bytes": 14400,
-          "sha256": "d9df14190f4cad3dfcf67f49dda9123eb64e2413cfb57be21df7edb8048c4e70"
+          "bytes": 15954,
+          "sha256": "d39d10c24b8b17495c1ffedab9c923514a955f07d9b5c013052df9a47381c3d6"
         },
         {
-          "file": "public/images/obsidian/b27e4e9daef2d64892c3f1d3-976.webp",
+          "file": "public/images/obsidian/031ab9ee8659bbc94b0f1cc9-976.webp",
           "width": 976,
           "height": 440,
-          "bytes": 45308,
-          "sha256": "66ff3cfcc082647ea9067570549e69b88001322c2644f8f3887de05a9253dd06"
+          "bytes": 56210,
+          "sha256": "1d8a77d6177bc48c735f15e471f1afdf6ae7c1430e7d9fe05d0d14dc67e9d833"
         }
       ]
     }

@@ -8,6 +8,18 @@ import { parse } from 'yaml'
 import { exportPosts, MANIFEST } from '../lib/obsidian-export.mjs'
 import { git, stagePublishedFiles } from '../lib/publishing-git.mjs'
 
+test('sync turns a timeline table into a component without changing the Obsidian note', async t => {
+  const f = await fixture(t)
+  const example = await readFile(new URL('../../docs/examples/timeline.md', import.meta.url), 'utf8')
+  await f.note('Timeline.md', '# Timeline\n\n' + example)
+  await f.sync()
+  const result = await readFile(path.join(f.projectRoot, 'content/blog/timeline.md'), 'utf8')
+  assert.match(result, /::post-timeline/)
+  assert.match(result, /group: Phase/)
+  assert.match(result, /Community workshop/)
+  assert.equal(await readFile(path.join(f.published, 'Timeline.md'), 'utf8'), '# Timeline\n\n' + example)
+})
+
 async function fixture(t) {
   const root = await mkdtemp(path.join(tmpdir(), 'obsidian-publishing-'))
   t.after(() => rm(root, { recursive: true, force: true }))
@@ -139,6 +151,20 @@ test('crop respects short panoramas, portraits and EXIF orientation without upsc
   }
   for (const imageCrop of [{ width: 0, height: 440 }, { width: 976, height: -1 }, '976x440']) {
     await assert.rejects(f.sync({ imageCrop }), /imageCrop must/)
+  }
+})
+
+test('normalizes Obsidian Publication lists and publication text into a single website field', async (t) => {
+  const f = await fixture(t)
+  await f.note('Magazine.md', '---\nPublication:\n  - Mustarinda Magazine\n  - Another journal\n---\nText')
+  await f.note('Journal.md', '---\npublication: A journal\n---\nText')
+  await f.note('Empty.md', '---\nPublication: null\n---\nText')
+  await f.sync()
+  for (const [slug, expected] of [['magazine', 'Mustarinda Magazine, Another journal'], ['journal', 'A journal'], ['empty', '']]) {
+    const output = await readFile(path.join(f.projectRoot, `content/blog/${slug}.md`), 'utf8')
+    const metadata = parse(output.match(/^---\n([\s\S]*?)\n---/)[1])
+    assert.equal(metadata.publication, expected)
+    assert.equal(metadata.Publication, undefined)
   }
 })
 
