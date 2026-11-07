@@ -87,13 +87,16 @@ It seems they can then finally cut down the hard to reach areas, like the last r
 > 
 > GIS-analysen visar att den största geografiska potentialen finns i brant terräng. Där identifierades drygt 570 000 hektar ej formellt skyddad skogsmark med omkring 94 miljoner m3sk stående virke. Skogbevuxna myrholmar utgör en mindre kompletterande möjlighet. Siffrorna visar geografisk potential – den praktiskt gallringsbara arealen beror bland annat på gallringsbehov, naturvärden, teknik, logistik och ekonomi.
 
-https://www.skogforsk.se/kunskapsbanken/kunskapsartiklar/2026/dronare-kan-forandra-hur-vi-gallrar-skogen/
+[skogsforsk 2026](https://www.skogforsk.se/kunskapsbanken/kunskapsartiklar/2026/dronare-kan-forandra-hur-vi-gallrar-skogen/)
+
 
 forskning på att svårtillgänglighet och låg vinst är anledningen till varför vissa få fjällskogar står kvar.  
-https://pmc.ncbi.nlm.nih.gov/articles/PMC12507246/
+[Länk](https://pmc.ncbi.nlm.nih.gov/articles/PMC12507246/)
+
 
 Krafttag att skydda den sista fjällskogen - kan det göras med ny regering?
-https://supermiljobloggen.se/kronika/leif-oster-ska-fjallskogarna-antligen-raddas/
+[Leif Öster](https://supermiljobloggen.se/kronika/leif-oster-ska-fjallskogarna-antligen-raddas/)
+
 
 Även om nya verktyg kan hjälpa till att förbättra skogsbruket, så behöver vi också ett bättre skydd. Regleringarna, och styrelse-system behövs. Tänk på vad: Annette Löf sa i mejl: *ett verktyg är aldrig bättre än kontexten i vilket det ska använda*
 
