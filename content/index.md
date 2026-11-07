@@ -1,6 +1,6 @@
 ---
 title: Jacob Bertilsson
-description: A personal space for notes, ideas, and things in progress.
+description:
 ---
 
 I'm a researcher and designer working at the intersection of ecology, digital technologies and environmental politics.

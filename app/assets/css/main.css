@@ -111,6 +111,8 @@ body {
 }
 .post-chart-plot {
   position: relative;
+  /* Keep horizontal touch movement available to the chart's pointer tracking. */
+  touch-action: pan-y pinch-zoom;
 }
 .post-chart-mask-defs {
   position: absolute;

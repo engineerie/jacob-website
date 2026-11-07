@@ -79,9 +79,9 @@ Air forestry have recently done a test flight
 
 It seems they can then finally cut down the hard to reach areas, like the last remaining highland forest. 
 
-https://www.dronewatch.eu/swedish-startup-achieves-first-fully-autonomous-tree-harvest-by-drone/
 
-this is the main article 
+
+[this](https://www.dronewatch.eu/swedish-startup-achieves-first-fully-autonomous-tree-harvest-by-drone/) is the main article 
 
 > **Kan öppna skog som i dag är svår att gallra**
 > 
